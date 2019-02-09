@@ -43,7 +43,7 @@ public class PlayerHandler {
 
         // Makes sure there is at least for players in the game by randomly adding computer players.
         while (players.size() < Player.MAX_NUM_OF_PLAYERS) {
-            ComputerPlayer.type selectedComputerPlayer = ComputerPlayer.type.values()[(int) (Math.random() * ComputerPlayer.type.values().length)];
+            ComputerPlayer.Type selectedComputerPlayer = ComputerPlayer.Type.values()[(int) (Math.random() * ComputerPlayer.Type.values().length)];
             switch (selectedComputerPlayer) {
                 case RANDOM:
                     players.add(new RandomComputerPlayer());

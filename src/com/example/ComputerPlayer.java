@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class ComputerPlayer extends Player {
-    enum type {ACCURATE, RANDOM}
+    enum Type {ACCURATE, RANDOM}
 
     @Override
     public void takeTurn() {
