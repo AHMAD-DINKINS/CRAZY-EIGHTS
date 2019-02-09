@@ -43,6 +43,7 @@ public class PlayerHandler {
         while (players.size() < Player.MIN_NUM_OF_PLAYERS) {
             players.add(new AccurateComputerPlayer()); // Makes sure there is at least for players in the game by randomly adding computer players.
         }
+        Collections.shuffle(players); // The players take turns in a random order.
         pointsNeededToWin = players.size() * POINT_MULTIPLIER;
     }
 
@@ -83,7 +84,12 @@ public class PlayerHandler {
             }
             player.processOpponentActions(opponentsTurns);
             player.takeTurn();
-            if (winner(player) || multipleWinners() || cheater != null) {
+            if (cheater != null) {
+                return;
+            } else if (winner(player) || multipleWinners()) {
+                System.out.println("\n==========================================\n"
+                        + player.getName() + " won the round."
+                        + "\n==========================================\n");
                 return;
             }
         }
@@ -120,7 +126,7 @@ public class PlayerHandler {
 
     private void printRunningPoints(List<Player> players) {
         System.out.println("\n==========================================");
-        System.out.println("Running points: \n---------------\n");
+        System.out.println("Points: \n---------------\n");
         for (Player player : players) {
             System.out.println("\t-" + player.getName() + ": " + player.getPoints() + "\n");
         }
@@ -163,6 +169,7 @@ public class PlayerHandler {
             return;
         }
         givePointsToWinner();
+        checkForGameWinner();
         if (gameWinner != null) {
             System.out.println("\n" + gameWinner.getName() + " WON!!!");
             System.out.println("Thanks for playing!!!\n");
@@ -206,12 +213,15 @@ public class PlayerHandler {
         return sum;
     }
 
-    public Player getGameWinner() {
+    public void checkForGameWinner() {
         for (Player player : players) {
             if (player.getPoints() >= pointsNeededToWin) {
                 gameWinner = player;
             }
         }
+    }
+
+    public Player getGameWinner() {
         return gameWinner;
     }
 

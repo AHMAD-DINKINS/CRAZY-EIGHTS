@@ -1,6 +1,7 @@
 package com.example;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -84,20 +85,21 @@ public class RealPlayer extends Player {
         }
         suit = decision;
 
-        getTurn().playedCard = hand.stream()
+        int amountOfPlayableCards = hand.stream()
                 .filter(card -> card.getRank().equals(PlayerHandler.getDeclaredRank())
                         || card.getSuit().equals(PlayerHandler.getDeclaredSuit())
                         || rank.equals(Card.Rank.EIGHT.name()))
                 .filter(card -> card.getRank().toString().equals(rank))
                 .filter(card -> card.getSuit().toString().equals(suit))
-                .collect(Collectors.toList()).size() > 0
-                ? hand.stream()
+                .collect(Collectors.toList()).size();
+        List<Card> playableCards = hand.stream()
                 .filter(card -> card.getRank().equals(PlayerHandler.getDeclaredRank())
                         || card.getSuit().equals(PlayerHandler.getDeclaredSuit())
                         || rank.equals(Card.Rank.EIGHT.name()))
                 .filter(card -> card.getRank().toString().equals(rank))
                 .filter(card -> card.getSuit().toString().equals(suit))
-                .collect(Collectors.toList()).get(0) : null;
+                .collect(Collectors.toList());
+        getTurn().playedCard = amountOfPlayableCards > 0 ? playableCards.get(0) : null;
 
         if (getTurn().playedCard == null) {
             PlayerHandler.setCheater(this);

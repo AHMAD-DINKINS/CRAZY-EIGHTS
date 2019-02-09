@@ -1,5 +1,6 @@
 package com.example;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class ComputerPlayer extends Player {
@@ -14,23 +15,31 @@ public abstract class ComputerPlayer extends Player {
                 PlayerHandler.setDeclaredSuit(declareSuit());
             }
             getTurn().drewACard = false;
+            System.out.println("\n==========================================\n"
+                             + getName() + " played the " + getTurn().playedCard.getRank() + " of " + getTurn().playedCard.getSuit()
+                             + ".\n==========================================\n");
             return;
         }
         receiveCard(PlayerHandler.getDrawPile().drawFrom());
         getTurn().drewACard = true;
+        System.out.println("\n==========================================\n"
+                         + getName() + " drew a card."
+                         + "\n==========================================\n");
     }
 
     @Override
     public Card playCard() {
-        getTurn().playedCard = hand.stream()
+        int amountOfPlayableCards = hand.stream()
                 .filter(card -> card.getRank().equals(PlayerHandler.getDeclaredRank())
                         || card.getSuit().equals(PlayerHandler.getDeclaredSuit())
                         || card.getRank().equals(Card.Rank.EIGHT))
-                .collect(Collectors.toList()).size() > 0 ? hand.stream()
+                .collect(Collectors.toList()).size();
+        List<Card> playableCards = hand.stream()
                 .filter(card -> card.getRank().equals(PlayerHandler.getDeclaredRank())
                         || card.getSuit().equals(PlayerHandler.getDeclaredSuit())
                         || card.getRank().equals(Card.Rank.EIGHT))
-                .collect(Collectors.toList()).get(0) : null;
+                .collect(Collectors.toList());
+        getTurn().playedCard = amountOfPlayableCards > 0 ? playableCards.get((int)(Math.random() * playableCards.size())) : null;
 
         if (getTurn().playedCard == null) {
             PlayerHandler.setCheater(this);

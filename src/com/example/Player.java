@@ -24,9 +24,9 @@ public abstract class Player implements PlayerStrategy {
     /** The actions the player. */
     private PlayerTurn turn;
     /** Represents valid suits*/
-    protected final static String VALID_SUITS = "HEARTS DIAMONDS CLUBS SPADES";
+    final static String VALID_SUITS = "HEARTS DIAMONDS CLUBS SPADES";
     /** Represents valid ranks*/
-    protected final static String VALID_RANKS = "ACE TWO THREE FOUR FIVE SIX SEVEN EIGHT NINE TEN JACK QUEEN KING";
+    final static String VALID_RANKS = "ACE TWO THREE FOUR FIVE SIX SEVEN EIGHT NINE TEN JACK QUEEN KING";
 
     /**
      * Default constructor used for computer players.
