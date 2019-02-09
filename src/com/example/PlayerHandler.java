@@ -40,8 +40,16 @@ public class PlayerHandler {
     PlayerHandler(final List<Player> setPlayers) {
         players = setPlayers;
         playerTurns = new ArrayList<>();
-        while (players.size() < Player.MIN_NUM_OF_PLAYERS) {
-            players.add(new AccurateComputerPlayer()); // Makes sure there is at least for players in the game by randomly adding computer players.
+
+        // Makes sure there is at least for players in the game by randomly adding computer players.
+        while (players.size() < Player.MAX_NUM_OF_PLAYERS) {
+            ComputerPlayer.type selectedComputerPlayer = ComputerPlayer.type.values()[(int) (Math.random() * ComputerPlayer.type.values().length)];
+            switch (selectedComputerPlayer) {
+                case RANDOM:
+                    players.add(new RandomComputerPlayer());
+                case ACCURATE:
+                    players.add(new AccurateComputerPlayer());
+            }
         }
         Collections.shuffle(players); // The players take turns in a random order.
         pointsNeededToWin = players.size() * POINT_MULTIPLIER;

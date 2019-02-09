@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class ComputerPlayer extends Player {
-    /** The possible number of different computer players that can exist in the game. */
-    final static int NUM_OF_DIFF_COMPUTER_PLAYERS = 2;
+    enum type {ACCURATE, RANDOM}
 
     @Override
     public void takeTurn() {
@@ -15,9 +14,11 @@ public abstract class ComputerPlayer extends Player {
                 PlayerHandler.setDeclaredSuit(declareSuit());
             }
             getTurn().drewACard = false;
-            System.out.println("\n==========================================\n"
-                             + getName() + " played the " + getTurn().playedCard.getRank() + " of " + getTurn().playedCard.getSuit()
-                             + ".\n==========================================\n");
+            if (PlayerHandler.getCheater() == null) {
+                System.out.println("\n==========================================\n"
+                        + getName() + " played the " + getTurn().playedCard.getRank() + " of " + getTurn().playedCard.getSuit()
+                        + ".\n==========================================\n");
+            }
             return;
         }
         receiveCard(PlayerHandler.getDrawPile().drawFrom());
