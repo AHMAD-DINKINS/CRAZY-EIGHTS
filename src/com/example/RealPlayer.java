@@ -45,7 +45,7 @@ public class RealPlayer extends Player {
         System.out.println("\n==========================================");
         System.out.println("Card at top of discard pile: " + topPileCard.getRank() + " of " + topPileCard.getSuit());
         if (pileSuit != null) {
-            System.out.println("The current declared suit: " + pileSuit);
+            System.out.println("The current suit is: " + pileSuit);
         }
         System.out.print("\nHAND:\t");
         this.hand.forEach(card -> System.out.print(card.getRank() + " of " + card.getSuit() + "\t\t"));
@@ -69,7 +69,19 @@ public class RealPlayer extends Player {
         System.out.print("\nEnter the rank of the card you would like to play(Ex eight): ");
 
         decision = scanner.nextLine().toUpperCase();
-        while(!(VALID_RANKS.contains(decision))) {
+        while(!(decision.equals("ACE")
+                || decision.equals("TWO")
+                || decision.equals("THREE")
+                || decision.equals("FOUR")
+                || decision.equals("FIVE")
+                || decision.equals("SIX")
+                || decision.equals("SEVEN")
+                || decision.equals("EIGHT")
+                || decision.equals("NINE")
+                || decision.equals("TEN")
+                || decision.equals("JACK")
+                || decision.equals("QUEEN")
+                || decision.equals("KING"))) {
             System.out.print("\n================\nINVALID INPUT!!!\n================\n\nPlease Enter a valid Rank: ");
             decision = scanner.nextLine().toUpperCase();
         }
@@ -79,7 +91,7 @@ public class RealPlayer extends Player {
         System.out.print("\nEnter the suit of the card you would like to play(Ex spades): ");
 
         decision = scanner.nextLine().toUpperCase();
-        while(!(VALID_SUITS.contains(decision) && decision.endsWith("S"))) {
+        while(!(decision.equals("HEARTS") || decision.equals("DIAMONDS") || decision.equals("CLUBS") || decision.equals("SPADES"))) {
             System.out.print("\n================\nINVALID INPUT!!!\n================\n\nPlease Enter a valid Suit: ");
             decision = scanner.nextLine().toUpperCase();
         }
@@ -121,7 +133,7 @@ public class RealPlayer extends Player {
         System.out.print("\nEnter the new suit(Diamonds/Hearts/Clubs/Spades): ");
 
         decision = scanner.nextLine().toUpperCase();
-        while(!(VALID_SUITS.contains(decision) && decision.endsWith("S"))) {
+        while(!(decision.equals("HEARTS") || decision.equals("DIAMONDS") || decision.equals("CLUBS") || decision.equals("SPADES"))) {
             System.out.print("\n================\nINVALID INPUT!!!\n================\n\nPlease Enter an valid Suit: ");
             decision = scanner.nextLine().toUpperCase();
         }

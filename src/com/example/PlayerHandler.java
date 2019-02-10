@@ -42,7 +42,7 @@ public class PlayerHandler {
         playerTurns = new ArrayList<>();
 
         // Makes sure there is at least for players in the game by randomly adding computer players.
-        while (players.size() < Player.MAX_NUM_OF_PLAYERS) {
+        while (players.size() < Player.MIN_NUM_OF_PLAYERS) {
             ComputerPlayer.Type selectedComputerPlayer = ComputerPlayer.Type.values()[(int) (Math.random() * ComputerPlayer.Type.values().length)];
             switch (selectedComputerPlayer) {
                 case RANDOM:
@@ -92,40 +92,44 @@ public class PlayerHandler {
             }
             player.processOpponentActions(opponentsTurns);
             player.takeTurn();
-            if (cheater != null) {
-                return;
-            } else if (winner(player) || multipleWinners()) {
-                System.out.println("\n==========================================\n"
-                        + player.getName() + " won the round."
-                        + "\n==========================================\n");
+            if (winner(player) || multipleWinners() || cheater != null) {
                 return;
             }
         }
     }
 
-    private void givePointsToWinner() {
+    private void givePointsToWinner(final List<Player> winners) {
         if (drawPile.pileSize() != 0) {
-            for (Player winner : roundWinners) {
-                for (Player opponent : players) {
+            System.out.println("\n==========================================\n"
+                    + winners.get(0).getName() + " won the round."
+                    + "\n==========================================\n");
+            for (Player opponent : players) {
+                if (opponent.getId() != winners.get(0).getId()) {
                     int opponentHandValue = getHandValue(opponent.hand);
-                    winner.addPoints(opponentHandValue);
+                    winners.get(0).addPoints(opponentHandValue);
                 }
             }
         } else if (roundWinners.size() == 1) {
-            for (Player winner : roundWinners) {
-                int winnerHandValue = getHandValue(winner.hand);
-                for (Player opponent : players) {
-                    if (opponent.getId() != winner.getId()) {
-                        int opponentHandValue = getHandValue(opponent.hand);
-                        winner.addPoints(Math.abs(winnerHandValue - opponentHandValue));
-                    }
+            System.out.println("\n==========================================\n"
+                    + winners.get(0).getName() + " won the round."
+                    + "\n==========================================\n");
+            int winnerHandValue = getHandValue(winners.get(0).hand);
+            for (Player opponent : players) {
+                if (opponent.getId() != winners.get(0).getId()) {
+                    int opponentHandValue = getHandValue(opponent.hand);
+                    winners.get(0).addPoints(Math.abs(winnerHandValue - opponentHandValue));
                 }
             }
         } else {
+            System.out.println("\n==========================================\n"
+                    + "All players tied this round."
+                    + "\n==========================================\n");
             for (Player winner : players) {
                 for (Player opponent : players) {
-                    int opponentHandValue = getHandValue(opponent.hand);
-                    winner.addPoints(opponentHandValue);
+                    if (opponent.getId() != winner.getId()) {
+                        int opponentHandValue = getHandValue(opponent.hand);
+                        winner.addPoints(opponentHandValue);
+                    }
                 }
             }
         }
@@ -176,7 +180,7 @@ public class PlayerHandler {
             System.out.println("Thanks for ruining the game...\n");
             return;
         }
-        givePointsToWinner();
+        givePointsToWinner(roundWinners);
         checkForGameWinner();
         if (gameWinner != null) {
             System.out.println("\n" + gameWinner.getName() + " WON!!!");

@@ -23,10 +23,6 @@ public abstract class Player implements PlayerStrategy {
     private List<Integer> opponentsIds;
     /** The actions the player. */
     private PlayerTurn turn;
-    /** Represents valid suits*/
-    final static String VALID_SUITS = "HEARTS DIAMONDS CLUBS SPADES";
-    /** Represents valid ranks*/
-    final static String VALID_RANKS = "ACE TWO THREE FOUR FIVE SIX SEVEN EIGHT NINE TEN JACK QUEEN KING";
 
     /**
      * Default constructor used for computer players.
